@@ -14,7 +14,11 @@ urlpatterns = [
 
     path('cart',views.CartAPIView.as_view(),name='cart'),
 
-    path('order',views.OrderAPIView.as_view,name='order')
+    path('order',views.OrderAPIView.as_view,name='order'),
+
+    path('single_user/<int:id>', views.SingleUserAPIView.as_view(), name='single_user'),
+
+    path('update_user/<int:id>', views.Update_UserAPIView.as_view(), name='update_user'),
 
 
 ]

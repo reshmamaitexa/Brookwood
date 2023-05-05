@@ -84,14 +84,11 @@ class order(models.Model):
 
 class complaint(models.Model):
 
-    complaint = models.CharField(max_length=500)
     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
-    product=models.ForeignKey(product,on_delete=models.CASCADE)
-    date=models.CharField(max_length=20)
-    time=models.CharField(max_length=20)
-    reply=models.CharField(max_length=500)
+    complaint = models.CharField(max_length=500)
+    date = models.DateField()
+    replay= models.CharField(max_length=500,default='No Replay')
     complaint_status = models.CharField(max_length=10)
-
     def __str__(self):
         return self.complaint
 

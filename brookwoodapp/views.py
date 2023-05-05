@@ -71,6 +71,51 @@ class LoginUserAPIView(GenericAPIView):
         else:
             return Response({'data':'username or password is invalid','success':False,}, status = status.HTTP_400_BAD_REQUEST)
 
+
+
+class SingleUserAPIView(GenericAPIView):
+    def get(self, request, id):
+        queryset = brookuser.objects.get(pk=id)
+        serializer =UserRegisterSerializer(queryset)
+        return Response({'data': serializer.data, 'message':'single user data', 'success':True}, status=status.HTTP_200_OK)
+
+
+
+class Update_UserAPIView(GenericAPIView):
+    serializer_class = UserRegisterSerializer
+    def put(self, request, id):
+        queryset = brookuser.objects.get(pk=id)
+        print(queryset)
+        serializer = UserRegisterSerializer(instance=queryset, data=request.data, partial=True)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data, 'message':'updated successfully', 'success':True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'data':'Something Went Wrong', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ComplaintAPIView(GenericAPIView):
+    serializer_class = ComplaintSerializer
+
+    def post(self, request):
+        user = request.data.get('user')
+        complaint = request.data.get('complaint')
+        date = request.data.get('date')
+        complaint_status="0"
+
+        serializer = self.serializer_class(data= {'user':user,'complaint':complaint,'date':date,'complaint_status':complaint_status})
+        print(serializer)
+        if serializer.is_valid():
+            print("hi")
+            serializer.save()
+            return Response({'data':serializer.data,'message':'complaint added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
 class ProductAPIView(GenericAPIView):
     serializer_class = ProductSerializer
 
@@ -113,25 +158,6 @@ class FeedbackAPIView(GenericAPIView):
         return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ComplaintAPIView(GenericAPIView):
-    serializer_class = ComplaintSerializer
-
-    def post(self, request):
-        user=request.data.get('user')
-        product=request.data.get('product')
-        complaint = request.data.get('complaint')
-        date = request.data.get('date')
-        time = request.data.get('time')
-        reply=request.data.get('reply')
-        complaint_status = '0'
-
-        serializer = self.serializer_class(data= {'user':user,'product':product,'complaint':complaint,'date':date,'time':time,'reply':reply,'complaint_status':complaint_status})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'complaint added successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CartAPIView(GenericAPIView):
