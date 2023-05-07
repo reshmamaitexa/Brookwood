@@ -152,22 +152,23 @@
           <div class="tile">
             <!-- <h3 class="tile-title">Products</h3> -->
             <div class="tile-body">
-              <form>
+              <form method="post" action="{% url 'admin_add_all_product' %}" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="form-group">
                   <label class="control-label">Product Name</label>
-                  <input class="form-control" type="text" placeholder="Enter product name">
+                  <input class="form-control" type="text" placeholder="Enter product name" name="product_name">
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Product details</label>
-                  <textarea class="form-control" rows="4" placeholder="Enter your product details"></textarea>
+                  <label class="control-label">Product Price</label>
+                  <input class="form-control" type="number" placeholder="Enter product price" name="price">
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Price</label>
-                  <input class="form-control" type="number" placeholder="Enter the Price">
+                  <label class="control-label">Product Gst</label>
+                  <input class="form-control" type="number" placeholder="Enter the Gst" name="GST">
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Quantity</label>
-                  <input class="form-control" type="number" placeholder="Enter the Quantity">
+                  <label class="control-label">Product Details</label>
+                  <input class="form-control" type="text" placeholder="Enter the Details" name="product_details">
                 </div>
                
                 <!-- <div class="form-group">
@@ -185,34 +186,18 @@
                 </div> -->
                 <div class="form-group">
                   <label class="control-label">Product image</label>
-                  <input class="form-control" type="file">
+                  <input class="form-control" type="file" name="image">
                 </div>
-                <fieldset class="form-group">
-                  <label class="control-label">Status</label>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" id="optionsRadios1" type="radio" name="optionsRadios" value="option1" checked="">Available
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" id="optionsRadios2" type="radio" name="optionsRadios" value="option2">Unavilable
-                    </label>
-                  </div>
-                  </div>
-                </fieldset>
                 <div class="form-group">
-                  <!-- <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox">I accept the terms and conditions
-                    </label>
-                  </div> -->
+                  <label class="control-label">Product Stock</label>
+                  <input class="form-control" type="text" placeholder="Enter the Quantity" name="stock">
+                </div>
+                <div class="tile-footer">
+                  <input class="btn btn-primary" type="submit" value="Submit">
                 </div>
               </form>
             </div>
-            <div class="tile-footer">
-              <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Submit</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
-            </div>
+            
           </div>
         </div>
         <!-- <div class="col-md-6">

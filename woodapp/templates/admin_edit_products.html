@@ -13,7 +13,7 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Data Table - Vali Admin</title>
+    <title>Form Samples - Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,9 +28,9 @@
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
-        <!-- <li class="app-search">
-          <input class="app-search__input" type="search" placeholder="Search"> -->
-          <!-- <button class="app-search__button"><i class="fa fa-search"></i></button> -->
+        <li class="app-search">
+          <!-- <input class="app-search__input" type="search" placeholder="Search">
+          <button class="app-search__button"><i class="fa fa-search"></i></button> -->
         </li>
         <!--Notification Menu-->
         <!-- <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i></a>
@@ -88,34 +88,36 @@
     <aside class="app-sidebar">
       <!-- <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
         <div> -->
-          <p class="app-sidebar__user-name">Brookwood</p>
+          <p class="app-sidebar__user-name"> Brookwood</p>
           <!-- <p class="app-sidebar__user-designation">Frontend Developer</p> -->
         </div>
       </div>
       <ul class="app-menu">
         <li><a class="app-menu__item" href="{% url 'admin_dashboard' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">User</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">user</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{% url 'admin_view_users' %}"><i class="icon fa fa-circle-o"></i>View user </a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_users' %}"><i class="icon fa fa-circle-o"></i> view user</a></li>
+            
             <li><a class="treeview-item" href="{% url 'admin_view_complaint_report' %}"><i class="icon fa fa-circle-o"></i> View complaint and reply</a></li>
-            <li><a class="treeview-item" href="{% url 'admin_view_bill_report' %}"><i class="icon fa fa-circle-o"></i> view  bill report</a></li>
-            <li><a class="treeview-item" href="{% url 'admin_view_feedback' %}"><i class="icon fa fa-circle-o"></i> view  feedback</a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_bill_report' %}"><i class="icon fa fa-circle-o"></i> View bill report</a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_feedback' %}"><i class="icon fa fa-circle-o"></i> View feedback</a></li>
+            <!-- <li><a class="treeview-item" href="https://fontawesome.com/v4.7.0/icons/" target="_blank" rel="noopener"><i class="icon fa fa-circle-o"></i> Font Icons</a></li> -->
           </ul>
         </li>
-    
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Manage product</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <!-- <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">Charts</span></a></li> -->
+        <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Manage product</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="Add_product.html"><i class="icon fa fa-circle-o"></i>Add product </a></li>
-            <!-- <li><a class="treeview-item" href="form-components.html"><i class="icon fa fa-circle-o"></i> Form Components</a></li> -->
+            <li><a class="treeview-item" href="{% url 'admin_add_product' %}"><i class="icon fa fa-circle-o"></i> Add product</a></li>
+
             <!-- <li><a class="treeview-item" href="form-custom.html"><i class="icon fa fa-circle-o"></i> Custom Components</a></li> -->
-           
-            <li><a class="treeview-item" href="view_product.html"><i class="icon fa fa-circle-o"></i> view product</a></li>
+            
+            <li><a class="treeview-item" href="{% url 'admin_view_product'%}"><i class="icon fa fa-circle-o"></i> view product</a></li>
           </ul>
         </li>
-        <!-- <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Tables</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <!-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Tables</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="table-basic.html"><i class="icon fa fa-circle-o"></i> Basic Tables</a></li>
-            <li><a class="treeview-item active" href="table-data-table.html"><i class="icon fa fa-circle-o"></i> Data Tables</a></li>
+            <li><a class="treeview-item" href="table-data-table.html"><i class="icon fa fa-circle-o"></i> Data Tables</a></li>
           </ul> -->
         <!-- </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -136,54 +138,146 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-th-list"></i> All Users</h1>
+          <h1><i class="fa fa-edit"></i>Edit Products</h1>
 
         </div>
-        <!-- <ul class="app-breadcrumb breadcrumb side">
+        <!-- <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item"><a href="#">Sample Forms</a></li>
         </ul> -->
       </div>
       <div class="row">
+        <div class="col-md-6">
+          <div class="tile">
+            <!-- <h3 class="tile-title">Products</h3> -->
+            <div class="tile-body">
+              <form method="post" action="{% url 'productformupdate' Data.id %}" >
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label">Product Name</label>
+                  <input class="form-control" type="text" placeholder="Enter product name" name="product_name" value="{{Data.product_name}}">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Product Price</label>
+                  <input class="form-control" type="number" placeholder="Enter product price" name="price" value="{{Data.price}}">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Product Gst</label>
+                  <input class="form-control" type="number" placeholder="Enter the Gst" name="GST" value="{{Data.GST}}">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Product Details</label>
+                  <input class="form-control" type="text" placeholder="Enter the Details" name="product_details" value="{{Data.product_details}}">
+                </div>
+               
+                <!-- <div class="form-group">
+                  <label class="control-label">Gender</label>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="gender">Male
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="gender">Female
+                    </label>
+                  </div>
+                </div> -->
+                <div class="form-group">
+                  <label class="control-label">Product Stock</label>
+                  <input class="form-control" type="text" placeholder="Enter the Quantity" name="stock" value="{{Data.stock}}">
+                </div>
+                <div class="tile-footer">
+                  <input class="btn btn-primary" type="submit" value="Submit">
+                </div>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">Register</h3>
+            <div class="tile-body">
+              <form class="form-horizontal">
+                <div class="form-group row">
+                  <label class="control-label col-md-3">Name</label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" placeholder="Enter full name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="control-label col-md-3">Email</label>
+                  <div class="col-md-8">
+                    <input class="form-control col-md-8" type="email" placeholder="Enter email address">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="control-label col-md-3">Address</label>
+                  <div class="col-md-8">
+                    <textarea class="form-control" rows="4" placeholder="Enter your address"></textarea>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="control-label col-md-3">Gender</label>
+                  <div class="col-md-9">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="gender">Male
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="gender">Female
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="control-label col-md-3">Identity Proof</label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="file">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-8 col-md-offset-3">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox">I accept the terms and conditions
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tile-footer">
+              <div class="row">
+                <div class="col-md-8 col-md-offset-3">
+                  <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="clearix"></div>
         <div class="col-md-12">
           <div class="tile">
+            <h3 class="tile-title">Subscribe</h3>
             <div class="tile-body">
-              <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="sampleTable">
-                  <thead>
-                    {% for i in data %}
-                    <tr>
-                      <th>product_name</th>
-                      <th>price</th>
-                      <th>GST</th>
-                      <th>product_price</th>
-                      <th>product_details</th>
-                      <th>image</th>
-                      <th>stock</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{i.product_name}}</td>
-                      <td>{{i.price}}</td>
-                      <td>{{i.GST}}</td>
-                      <td>{{i.product_price}}</td>
-                      <td>{{i.product_details}}</td>
-                      <td><img src="/media/{{i.image}}"></td>
-                      <td>{{i.stock}}</td>
-
-                      <td>
-                        <button type="button" class="btn mb-1 btn-rounded btn-success" ><a href="{% url 'admin_edit_product' i.id %}">Edit</a></button>
-                        <button type="button" class="btn mb-1 btn-rounded btn-danger"><a href="{% url 'admin_delete_product' i.id %}">Delete</a></button>
-                    </td>
-                    </tr>
-
-                    {% endfor %}
-                   
-                  </tbody>
-                </table>
-              </div>
+              <form class="row">
+                <div class="form-group col-md-3">
+                  <label class="control-label">Name</label>
+                  <input class="form-control" type="text" placeholder="Enter your name">
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="control-label">Email</label>
+                  <input class="form-control" type="text" placeholder="Enter your email">
+                </div>
+                <div class="form-group col-md-4 align-self-end">
+                  <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Subscribe</button>
+                </div> -->
+              </form>
             </div>
           </div>
         </div>
@@ -197,10 +291,6 @@
     <!-- The javascript plugin to display page loading on top-->
     <script src="../static/js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
-    <!-- Data table plugin-->
-    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
     <!-- Google analytics script-->
     <script type="text/javascript">
       if(document.location.hostname == 'pratikborsadiya.in') {

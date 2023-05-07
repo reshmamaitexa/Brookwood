@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from .models import Log,brookuser,product,feedback,complaint,cart,order
-from brookwoodapp.serializers import LoginUserSerializer,UserRegisterSerializer,ProductSerializer,FeedbackSerializer,ComplaintSerializer,CartSerializer,OrderSerializer
+from .models import Log,brookuser,complaint, product
+from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer
 
 # Create your views here.
 
@@ -100,11 +100,12 @@ class ComplaintAPIView(GenericAPIView):
 
     def post(self, request):
         user = request.data.get('user')
+        product=request.data.get('product')
         complaint = request.data.get('complaint')
         date = request.data.get('date')
         complaint_status="0"
 
-        serializer = self.serializer_class(data= {'user':user,'complaint':complaint,'date':date,'complaint_status':complaint_status})
+        serializer = self.serializer_class(data= {'user':user,'complaint':complaint,'product':product,'date':date,'complaint_status':complaint_status})
         print(serializer)
         if serializer.is_valid():
             print("hi")
@@ -114,92 +115,124 @@ class ComplaintAPIView(GenericAPIView):
 
 
 
+class ComplaintSingleAPIView(GenericAPIView):
+    def get(self, request, id):
+        queryset = brookuser.objects.all().filter(pk=id).values()
+        print(queryset)
+        for i in queryset:
+            user = i['id']
+            print('///////////',user)
+        instance = complaint.objects.get(user=user)
+        print("======",instance)
+        serializer = ComplaintSerializer(instance)
+        return Response({'data': serializer.data, 'message':'complaint  data', 'success':True}, status=status.HTTP_200_OK)
 
 
-class ProductAPIView(GenericAPIView):
+
+
+class Get_ProductAPIView(GenericAPIView):
     serializer_class = ProductSerializer
-
-    def post(self, request):
-        product_name=request.data.get('product_name')
-        price = int(request.data.get('price'))
-        GST = int(request.data.get('GST'))
-        Total_price =(price * GST / 100)
-        price_total = Total_price+price
-        product_details = request.data.get('product_details')
-        stock = request.data.get('stock')
-        product_status = '0'
-
-        serializer = self.serializer_class(data= {'product_name':product_name,'price':price,'GST':GST,'product_price':price_total,'product_details':product_details,'stock':stock,'price_total':Total_price+price,'product_status':product_status})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'Product added successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        queryset = product.objects.all()
+        if (queryset.count()>0):
+            serializer = ProductSerializer(queryset, many=True)
+            return Response({'data': serializer.data, 'message':'product all data', 'success':True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FeedbackAPIView(GenericAPIView):
-    serializer_class = FeedbackSerializer
-
-    def post(self, request):
-        user=request.data.get('user')
-        product=request.data.get('product')
-        feedback = request.data.get('feedback')
-        date = request.data.get('date')
-        time = request.data.get('time')
-        feedback_status = '0'
-
-        serializer = self.serializer_class(data= {'user':user,'product':product,'feedback':feedback,'date':date,'time':time,'feedback_status':feedback_status})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'feedback added successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+class SingleProductAPIView(GenericAPIView):
+    def get(self, request, id):
+        queryset = product.objects.get(pk=id)
+        serializer =ProductSerializer(queryset)
+        return Response({'data': serializer.data, 'message':'single product data', 'success':True}, status=status.HTTP_200_OK)
 
 
 
+# class ProductAPIView(GenericAPIView):
+#     serializer_class = ProductSerializer
 
-class CartAPIView(GenericAPIView):
-    serializer_class = CartSerializer
+#     def post(self, request):
+#         product_name=request.data.get('product_name')
+#         price = int(request.data.get('price'))
+#         GST = int(request.data.get('GST'))
+#         Total_price =(price * GST / 100)
+#         price_total = Total_price+price
+#         product_details = request.data.get('product_details')
+#         stock = request.data.get('stock')
+#         product_status = '0'
 
-    def post(self, request):
-        user=request.data.get('user')
-        product=request.data.get('product')
-        price = request.data.get('price')
-        # Image = request.data.get('Image')
-        Quantity = request.data.get('Quantity')
-        cart_status = '0'
-
-        serializer = self.serializer_class(data= {'user':user,'product':product,'price':price,'Quantity':Quantity,'cart_status':cart_status})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'cart added successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+#         serializer = self.serializer_class(data= {'product_name':product_name,'price':price,'GST':GST,'product_price':price_total,'product_details':product_details,'stock':stock,'price_total':Total_price+price,'product_status':product_status})
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("hi")
+#             serializer.save()
+#             return Response({'data':serializer.data,'message':'Product added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+#         return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrderAPIView(GenericAPIView):
-    serializer_class = OrderSerializer
+# class FeedbackAPIView(GenericAPIView):
+#     serializer_class = FeedbackSerializer
 
-    def post(self, request):
+#     def post(self, request):
+#         user=request.data.get('user')
+#         product=request.data.get('product')
+#         feedback = request.data.get('feedback')
+#         date = request.data.get('date')
+#         time = request.data.get('time')
+#         feedback_status = '0'
+
+#         serializer = self.serializer_class(data= {'user':user,'product':product,'feedback':feedback,'date':date,'time':time,'feedback_status':feedback_status})
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("hi")
+#             serializer.save()
+#             return Response({'data':serializer.data,'message':'feedback added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+#         return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+# class CartAPIView(GenericAPIView):
+#     serializer_class = CartSerializer
+
+#     def post(self, request):
+#         user=request.data.get('user')
+#         product=request.data.get('product')
+#         price = request.data.get('price')
+#         # Image = request.data.get('Image')
+#         Quantity = request.data.get('Quantity')
+#         cart_status = '0'
+
+#         serializer = self.serializer_class(data= {'user':user,'product':product,'price':price,'Quantity':Quantity,'cart_status':cart_status})
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("hi")
+#             serializer.save()
+#             return Response({'data':serializer.data,'message':'cart added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+#         return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class OrderAPIView(GenericAPIView):
+#     serializer_class = OrderSerializer
+
+#     def post(self, request):
     
-        product=request.data.get('product')
-        price = request.data.get('price')
-        # Image = request.data.get('Image')
-        date = request.data.get('date')
-        time = request.data.get('time')
-        Quantity = request.data.get('Quantity')
-        order_status = '0'
+#         product=request.data.get('product')
+#         price = request.data.get('price')
+#         # Image = request.data.get('Image')
+#         date = request.data.get('date')
+#         time = request.data.get('time')
+#         Quantity = request.data.get('Quantity')
+#         order_status = '0'
 
-        serializer = self.serializer_class(data= {'product':product,'price':price,'date':date,'time':time,'Quantity':Quantity,'order_status':order_status})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'order successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+#         serializer = self.serializer_class(data= {'product':product,'price':price,'date':date,'time':time,'Quantity':Quantity,'order_status':order_status})
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("hi")
+#             serializer.save()
+#             return Response({'data':serializer.data,'message':'order successfully', 'success':True}, status = status.HTTP_201_CREATED)
+#         return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

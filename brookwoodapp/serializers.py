@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Log,brookuser,product,feedback,complaint,cart,order
+from .models import Log,brookuser,complaint,product
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,19 +13,19 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def Create(self, validated_data):
         return brookuser.objects.Create(**validated_data)
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = product
-        fields = '__all__'
-    def Create(self,validated_data):
-        return product.objects.Create(**validated_data)
+# class ProductSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = product
+#         fields = '__all__'
+#     def Create(self,validated_data):
+#         return product.objects.Create(**validated_data)
 
-class FeedbackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = feedback
-        fields = '__all__'
-    def Create(self,validated_data):
-        return feedback.objects.Create(**validated_data)
+# class FeedbackSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = feedback
+#         fields = '__all__'
+#     def Create(self,validated_data):
+#         return feedback.objects.Create(**validated_data)
 
 class ComplaintSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,17 +34,23 @@ class ComplaintSerializer(serializers.ModelSerializer):
     def Create(self,validated_data):
         return complaint.objects.Create(**validated_data)
 
-class CartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = cart
-        fields = '__all__'
-    def Create(self,validated_data):
-        return cart.objects.Create(**validated_data)
 
-class OrderSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = order
-        fields = '__all__'
-    def Create(self,validated_data):
-        return cart.objects.Create(**validated_data)
+        model = product
+        fields = '__all__' 
+
+# class CartSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = cart
+#         fields = '__all__'
+#     def Create(self,validated_data):
+#         return cart.objects.Create(**validated_data)
+
+# class OrderSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = order
+#         fields = '__all__'
+#     def Create(self,validated_data):
+#         return cart.objects.Create(**validated_data)
 

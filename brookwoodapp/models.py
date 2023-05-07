@@ -24,6 +24,17 @@ class brookuser(models.Model):
     userstatus = models.CharField(max_length=10)
 
 
+class complaint(models.Model):
+
+    user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
+    product = models.CharField(max_length=500)
+    complaint = models.CharField(max_length=500)
+    date = models.DateField()
+    replay= models.CharField(max_length=500,default='No Replay')
+    complaint_status = models.CharField(max_length=10)
+    def __str__(self):
+        return self.complaint
+
 
 class product(models.Model):
     product_name = models.CharField(max_length=50)
@@ -31,7 +42,7 @@ class product(models.Model):
     GST = models.IntegerField()
     product_price = models.IntegerField()
     product_details = models.CharField(max_length=300)
-    # image = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='images')
     stock = models.CharField(max_length=500)
     product_status = models.CharField(max_length=10)
 
@@ -41,26 +52,24 @@ class product(models.Model):
 class cart(models.Model):
     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
-    price= models.IntegerField()
-    # image = models.CharField(max_length=200)
     Quantity = models.CharField(max_length=500)
     cart_status = models.CharField(max_length=10)
 
     def __str__(self):
         return self.product
 
-class order(models.Model):
+# class order(models.Model):
 
-    product=models.ForeignKey(product,on_delete=models.CASCADE)
-    # image = models.CharField(max_length=200)
-    Quantity = models.CharField(max_length=500)
-    price= models.IntegerField()
-    date=models.CharField(max_length=20)
-    time=models.CharField(max_length=20)
-    order_status = models.CharField(max_length=10)
+#     product=models.ForeignKey(product,on_delete=models.CASCADE)
+#     # image = models.CharField(max_length=200)
+#     Quantity = models.CharField(max_length=500)
+#     price= models.IntegerField()
+#     date=models.CharField(max_length=20)
+#     time=models.CharField(max_length=20)
+#     order_status = models.CharField(max_length=10)
 
-    def __str__(self):
-        return self.product
+#     def __str__(self):
+#         return self.product
 
 # class bill(models.Model):
 #     total_amount = models.CharField(max_length=50)
@@ -82,22 +91,14 @@ class order(models.Model):
 #     def __str__(self):
 #         return self.bank
 
-class complaint(models.Model):
 
-    user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
-    complaint = models.CharField(max_length=500)
-    date = models.DateField()
-    replay= models.CharField(max_length=500,default='No Replay')
-    complaint_status = models.CharField(max_length=10)
-    def __str__(self):
-        return self.complaint
 
-class feedback(models.Model):
-    feedback = models.CharField(max_length=500)
-    user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
-    product=models.ForeignKey(product,on_delete=models.CASCADE)
-    date=models.CharField(max_length=20)
-    time=models.CharField(max_length=20)
+# class feedback(models.Model):
+#     feedback = models.CharField(max_length=500)
+#     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
+#     product=models.ForeignKey(product,on_delete=models.CASCADE)
+#     date=models.CharField(max_length=20)
+#     time=models.CharField(max_length=20)
 
-    def __str__(self):
-        return self.feedback
+#     def __str__(self):
+#         return self.feedback
