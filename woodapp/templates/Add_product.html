@@ -155,6 +155,10 @@
               <form method="post" action="{% url 'admin_add_all_product' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
+                  <label class="control-label">Category Name</label>
+                  <input class="form-control" type="text" placeholder="Enter product name" name="category_name">
+                </div>
+                <div class="form-group">
                   <label class="control-label">Product Name</label>
                   <input class="form-control" type="text" placeholder="Enter product name" name="product_name">
                 </div>

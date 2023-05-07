@@ -161,6 +161,8 @@
                       <th>product_details</th>
                       <th>image</th>
                       <th>stock</th>
+                      <th>Category</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -172,6 +174,7 @@
                       <td>{{i.product_details}}</td>
                       <td><img src="/media/{{i.image}}"></td>
                       <td>{{i.stock}}</td>
+                      <td>{{i.category}}</td>
 
                       <td>
                         <button type="button" class="btn mb-1 btn-rounded btn-success" ><a href="{% url 'admin_edit_product' i.id %}">Edit</a></button>

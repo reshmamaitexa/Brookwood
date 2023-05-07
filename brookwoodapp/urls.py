@@ -26,5 +26,12 @@ urlpatterns = [
     path('get_product', views.Get_ProductAPIView.as_view(), name='get_product'),
     path('single_product/<int:id>', views.SingleProductAPIView.as_view(), name='single_product'),
 
+    path('addtocart', views.CartAPIView.as_view(), name='addtocart'),
 
+    path('SingleCart/<int:id>', views.SingleCartAPIView.as_view(), name='SingleCart'),
+
+    path('category', views.Get_CategoryAPIView.as_view(), name='categoty'),
+    
+
+    
 ]

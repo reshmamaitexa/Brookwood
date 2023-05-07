@@ -14,6 +14,8 @@ urlpatterns = [
     path('admin_delete_product/<int:id>', views.admin_delete_product, name='admin_delete_product'),
     path('admin_edit_product/<int:id>', views.admin_edit_product, name='admin_edit_product'),
     path('<int:id>/productformupdate/', views.productformupdate, name='productformupdate'),
+    path('admin_add_category_page', views.admin_add_category_page,name='admin_add_category_page'),
+    path('admin_add_category', views.admin_add_category,name='admin_add_category'),
     # path('',views.admin_login,name='admin_login'),
     # path('login_admin',views.login_admin,name='login_admin'),
 

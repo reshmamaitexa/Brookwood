@@ -22,7 +22,8 @@ class brookuser(models.Model):
     log_id = models.OneToOneField(Log, on_delete=models.CASCADE)
     role = models.CharField(max_length=10)
     userstatus = models.CharField(max_length=10)
-
+    def __str__(self):
+        return self.fullname
 
 class complaint(models.Model):
 
@@ -36,7 +37,17 @@ class complaint(models.Model):
         return self.complaint
 
 
+
+class category(models.Model):
+    category_name = models.CharField(max_length=50)
+    category_status = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.category_name
+
+
 class product(models.Model):
+    category= models.CharField(max_length=50)
     product_name = models.CharField(max_length=50)
     price = models.IntegerField()
     GST = models.IntegerField()
@@ -52,11 +63,10 @@ class product(models.Model):
 class cart(models.Model):
     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
-    Quantity = models.CharField(max_length=500)
+    quantity = models.CharField(max_length=500)
+    total_price= models.CharField(max_length=500)
     cart_status = models.CharField(max_length=10)
 
-    def __str__(self):
-        return self.product
 
 # class order(models.Model):
 

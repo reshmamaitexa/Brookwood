@@ -13,7 +13,7 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Cards - Vali Admin</title>
+    <title>Data Table - Vali Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,12 +28,12 @@
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
-        <li class="app-search">
-          <!-- <input class="app-search__input" type="search" placeholder="Search"> -->
+        <!-- <li class="app-search">
+          <input class="app-search__input" type="search" placeholder="Search"> -->
           <!-- <button class="app-search__button"><i class="fa fa-search"></i></button> -->
-        <!-- </li>
-        Notification Menu
-        <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i></a>
+        </li>
+        <!--Notification Menu-->
+        <!-- <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i></a>
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have 4 new notifications.</li>
             <div class="app-notification__content">
@@ -86,39 +86,39 @@
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-      <!-- <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
-        <div>
+      <!-- <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
+        <div> -->
           <p class="app-sidebar__user-name">Brookwood</p>
           <!-- <p class="app-sidebar__user-designation">Frontend Developer</p> -->
         </div>
       </div>
       <ul class="app-menu">
-        <li><a class="app-menu__item" href="dashboard.html"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">User</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li><a class="app-menu__item" href="{% url 'admin_dashboard' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">User</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{% url 'admin_view_users' %}"><i class="icon fa fa-circle-o"></i> view user</a></li>
-            <li><a class="treeview-item" href="{% url 'admin_view_complaint_report' %}" target="_blank" rel="noopener"><i class="icon fa fa-circle-o"></i> view complaint and reply</a></li>
-            <li><a class="treeview-item active" href="{% url 'admin_view_bill_report' %}"><i class="icon fa fa-circle-o"></i> view bill report</a></li>
-            <li><a class="treeview-item" href="{% url 'admin_view_feedback' %}"><i class="icon fa fa-circle-o"></i> view feedback</a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_users' %}"><i class="icon fa fa-circle-o"></i>View user </a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_complaint_report' %}"><i class="icon fa fa-circle-o"></i> View complaint and reply</a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_bill_report' %}"><i class="icon fa fa-circle-o"></i> view  bill report</a></li>
+            <li><a class="treeview-item" href="{% url 'admin_view_feedback' %}"><i class="icon fa fa-circle-o"></i> view  feedback</a></li>
           </ul>
         </li>
-        <!-- <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">Charts</span></a></li> -->
+    
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Manage product</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="Add_product.html"><i class="icon fa fa-circle-o"></i> Add product</a></li>
-            <!-- <li><a class="treeview-item" href="form-components.html"><i class="icon fa fa-circle-o"></i> Form Components</a></li>
-            <li><a class="treeview-item" href="form-custom.html"><i class="icon fa fa-circle-o"></i> Custom Components</a></li> -->
+            <li><a class="treeview-item" href="Add_product.html"><i class="icon fa fa-circle-o"></i>Add product </a></li>
+            <!-- <li><a class="treeview-item" href="form-components.html"><i class="icon fa fa-circle-o"></i> Form Components</a></li> -->
+            <!-- <li><a class="treeview-item" href="form-custom.html"><i class="icon fa fa-circle-o"></i> Custom Components</a></li> -->
            
             <li><a class="treeview-item" href="view_product.html"><i class="icon fa fa-circle-o"></i> view product</a></li>
           </ul>
         </li>
-        <!-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Tables</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <!-- <li class="treeview is-expanded"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Tables</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="table-basic.html"><i class="icon fa fa-circle-o"></i> Basic Tables</a></li>
-            <li><a class="treeview-item" href="table-data-table.html"><i class="icon fa fa-circle-o"></i> Data Tables</a></li>
-          </ul>
-        </li> -->
-        <!-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <li><a class="treeview-item active" href="table-data-table.html"><i class="icon fa fa-circle-o"></i> Data Tables</a></li>
+          </ul> -->
+        <!-- </li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="blank-page.html"><i class="icon fa fa-circle-o"></i> Blank Page</a></li>
             <li><a class="treeview-item" href="page-login.html"><i class="icon fa fa-circle-o"></i> Login Page</a></li>
@@ -129,79 +129,65 @@
             <li><a class="treeview-item" href="page-mailbox.html"><i class="icon fa fa-circle-o"></i> Mailbox</a></li>
             <li><a class="treeview-item" href="page-error.html"><i class="icon fa fa-circle-o"></i> Error Page</a></li>
           </ul>
-        </li> -->
-        <!-- <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Docs</span></a></li>
+        </li>
+        <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Docs</span></a></li>
       </ul> -->
     </aside>
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-laptop"></i>Complaints</h1>
-        
+          <h1><i class="fa fa-th-list"></i> All Users</h1>
+
         </div>
-        <!-- <ul class="app-breadcrumb breadcrumb">
+        <!-- <ul class="app-breadcrumb breadcrumb side">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item">UI</li>
-          <li class="breadcrumb-item"><a href="#">Cards</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
         </ul> -->
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="tile">
-            <h3 class="tile-title">Complaints</h3>
-            <div class="tile-body">My order is not delivered by the time promised by Brookwood</div>
-            <div class="tile-footer"><a class="btn btn-primary" href="#">Reply</a></div>
-          </div>
-        </div>
-        <!-- <div class="col-md-6">
-          <div class="tile">
-            <div class="tile-title-w-btn">
-              <h3 class="title">All Items</h3>
-              <p><a class="btn btn-primary icon-btn" href=""><i class="fa fa-plus"></i>Add Item	</a></p>
-            </div>
             <div class="tile-body">
-              <b>Card with action button </b><br>
-              Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.
-              
-              
-            </div>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="col-md-6">
-          <div class="tile">
-            <div class="tile-title-w-btn">
-              <h3 class="title">All Items</h3>
-              <div class="btn-group"><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
-            </div>
-            <div class="tile-body">
-              <b>Card with button group </b><br>
-              Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.
-              
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="col-md-6">
-          <div class="tile">
-            <div class="overlay">
-              <div class="m-loader mr-4">
-                <svg class="m-circular" viewBox="25 25 50 50">
-                	<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"/>
-                </svg>
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                  <thead>
+                    {% for i in data %}
+                    <tr>
+                      <th>product_name</th>
+                      <th>price</th>
+                      <th>GST</th>
+                      <th>product_price</th>
+                      <th>product_details</th>
+                      <th>image</th>
+                      <th>stock</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{i.product_name}}</td>
+                      <td>{{i.price}}</td>
+                      <td>{{i.GST}}</td>
+                      <td>{{i.product_price}}</td>
+                      <td>{{i.product_details}}</td>
+                      <td><img src="/media/{{i.image}}"></td>
+                      <td>{{i.stock}}</td>
+
+                      <td>
+                        <button type="button" class="btn mb-1 btn-rounded btn-success" ><a href="{% url 'admin_edit_product' i.id %}">Edit</a></button>
+                        <button type="button" class="btn mb-1 btn-rounded btn-danger"><a href="{% url 'admin_delete_product' i.id %}">Delete</a></button>
+                    </td>
+                    </tr>
+
+                    {% endfor %}
+                   
+                  </tbody>
+                </table>
               </div>
-              <h3 class="l-text">Loading</h3>
-            </div>
-            <div class="tile-title-w-btn">
-              <h3 class="title">All Items</h3>
-              <p><a class="btn btn-primary icon-btn" href=""><i class="fa fa-plus"></i>Add Item	</a></p>
-            </div>
-            <div class="tile-body">
-              <b>Card with action button </b><br>
-              Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="../static/js/jquery-3.3.1.min.js"></script>
@@ -211,6 +197,10 @@
     <!-- The javascript plugin to display page loading on top-->
     <script src="../static/js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript">$('#sampleTable').DataTable();</script>
     <!-- Google analytics script-->
     <script type="text/javascript">
       if(document.location.hostname == 'pratikborsadiya.in') {

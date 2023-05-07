@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from brookwoodapp.models import Log, brookuser,product
+from brookwoodapp.models import Log, brookuser,product, category
 from brookwoodapp import models
 import decimal
 # Create your views here.
@@ -55,6 +55,7 @@ def admin_view_users(request):
 
 def admin_add_all_product(request):
     if request.method == 'POST':
+        category_name = request.POST.get('category_name')
         product_name = request.POST.get('product_name')
         prices = request.POST.get('price')
         price=int(prices)
@@ -69,7 +70,7 @@ def admin_add_all_product(request):
         
         product_status = '0'
 
-        ProductDetails = models.product(product_name=product_name, price=price,GST=GST,product_price=price_total,product_details=product_details,image=image,stock=stock,product_status=product_status)
+        ProductDetails = models.product(category=category_name,product_name=product_name, price=price,GST=GST,product_price=price_total,product_details=product_details,image=image,stock=stock,product_status=product_status)
         ProductDetails.save()
             
         return redirect('admin_view_product')
@@ -107,3 +108,25 @@ def productformupdate(request,id):
         add.stock=request.POST["stock"]
         add.save()
         return redirect("admin_view_all_product")
+
+
+def admin_edit_product(request,id):
+    Data = product.objects.get(id=id)
+    return render(request,'admin_edit_products.html',{'Data':Data})
+
+
+def admin_add_category_page(request):
+    return render(request,'admin_add_category.html')
+
+
+def admin_add_category(request):
+    if request.method == 'POST':
+        category_name = request.POST.get('category_name')
+        category_status = '0'
+
+        CategoryDetails = models.category(category_name=category_name,category_status=category_status)
+        CategoryDetails.save()
+            
+        return render(request,'view_product.html')
+    else:
+        return render(request, 'admin_add_category.html')

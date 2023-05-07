@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from .models import Log,brookuser,complaint, product
-from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer
+from .models import Log,brookuser,complaint, product, cart, category
+from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer
 
 # Create your views here.
 
@@ -146,6 +146,60 @@ class SingleProductAPIView(GenericAPIView):
         queryset = product.objects.get(pk=id)
         serializer =ProductSerializer(queryset)
         return Response({'data': serializer.data, 'message':'single product data', 'success':True}, status=status.HTTP_200_OK)
+
+
+
+class CartAPIView(GenericAPIView):
+    serializer_class = CartSerializer
+
+    def post(self, request):
+        user = request.data.get('user')
+        products=request.data.get('product')
+        print(product)
+        quty = request.data.get('quantity')
+        quantity=int(quty)
+        cart_status="0"
+        
+        
+        data=product.objects.all().filter(id=products).values()
+        for i in data:
+            prices=i['product_price']
+            price=int(prices)
+            print(price)
+            total_price=price*quantity
+            print(total_price)
+
+        serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':total_price,'cart_status':cart_status})
+        print(serializer)
+        if serializer.is_valid():
+            print("hi")
+            serializer.save()
+            return Response({'data':serializer.data,'message':'cart added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class SingleCartAPIView(GenericAPIView):
+    def get(self, request, id):
+        qset = brookuser.objects.all().filter(pk=id).values()
+        for i in qset:
+            u_id=i['id']
+
+        data=cart.objects.all().filter(user=u_id).values()
+        print(data)
+        return Response({'data':data, 'message':'single product data', 'success':True}, status=status.HTTP_200_OK)
+
+
+
+class Get_CategoryAPIView(GenericAPIView):
+    serializer_class = ProductSerializer
+    def get(self, request):
+        queryset = category.objects.all()
+        if (queryset.count()>0):
+            serializer = categorySerializer(queryset, many=True)
+            return Response({'data': serializer.data, 'message':'category all data', 'success':True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
