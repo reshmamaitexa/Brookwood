@@ -31,6 +31,18 @@ urlpatterns = [
     path('SingleCart/<int:id>', views.SingleCartAPIView.as_view(), name='SingleCart'),
 
     path('category', views.Get_CategoryAPIView.as_view(), name='categoty'),
+
+    path('SingleCart/<int:id>', views.SingleCartAPIView.as_view(), name='SingleCart'),
+
+    path('review', views.UserReviewAPIView.as_view(), name='review'),
+
+    path('all_review', views.Get_ReviewAPIView.as_view(), name='all_review'),
+
+    path('SingleReview/<int:id>', views.SingleReviewAPIView.as_view(), name='SingleReview'),
+
+    path('order', views.UserOrderAPIView.as_view(), name='order'),
+
+    path('Singleorder/<int:id>', views.SingleOrderAPIView.as_view(), name='Singleorder'),
     
 
     

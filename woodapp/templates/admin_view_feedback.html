@@ -155,23 +155,18 @@
                     {% for i in data %}
                     <tr>
                       <th>User</th>
-                      <th>Product</th>
-                      <th>Complaint</th>
+                      <th>Feedback</th>
+                      <th>Rating</th>
                       <th>Date</th>
-                      <th>Replay</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>{{i.user}}</td>
-                      <td>{{i.product}}</td>
-                      <td>{{i.complaint}}</td>
+                      <td>{{i.feedback}}</td>
+                      <td>{{i.rating}}</td>
                       <td>{{i.date}}</td>
-                      <td>{{i.replay}}</td>
-                      <td>
-                        <button type="button" class="btn mb-1 btn-rounded btn-success" ><a href="{% url 'admin_single_complaints' i.id %}">Replay</a></button>
-                         </td>
+                      
                     </tr>
 
                     {% endfor %}

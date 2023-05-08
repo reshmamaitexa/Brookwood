@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Log,brookuser,complaint,product,cart, category
+from .models import Log,brookuser,complaint,product,cart, category, Review
 
 # Register your models here.
 admin.site.register(Log),
@@ -7,4 +7,5 @@ admin.site.register(brookuser),
 admin.site.register(complaint),
 admin.site.register(product),
 admin.site.register(cart),
-category
+admin.site.register(category),
+admin.site.register(Review),

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from .models import Log,brookuser,complaint, product, cart, category
-from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer
+from .models import Log,brookuser,complaint, product, cart, category, Review, order
+from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer, ComplaintSerializer, ReviewSerializer, OrderSerializer
 
 # Create your views here.
 
@@ -200,6 +200,88 @@ class Get_CategoryAPIView(GenericAPIView):
             return Response({'data': serializer.data, 'message':'category all data', 'success':True}, status=status.HTTP_200_OK)
         else:
             return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UserReviewAPIView(GenericAPIView):
+    serializer_class = ReviewSerializer
+
+    def post(self, request):
+        user = request.data.get('user')
+        feedback = request.data.get('feedback')
+        rating = request.data.get('rating')
+        date = request.data.get('date')
+        review_status="0"
+
+
+        serializer = self.serializer_class(data= {'user':user, 'feedback':feedback,'rating':rating,'date':date,'review_status':review_status})
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data, 'message':'Review Added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+        return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SingleReviewAPIView(GenericAPIView):
+    def get(self, request, id):
+        queryset = brookuser.objects.all().filter(pk=id).values()
+        for i in queryset:
+            u_id=i['id']
+        data=Review.objects.get(user=u_id)
+        serializer =ReviewSerializer(data)
+        return Response({'data': serializer.data, 'message':'single Review data', 'success':True}, status=status.HTTP_200_OK)
+
+
+class Get_ReviewAPIView(GenericAPIView):
+    serializer_class = ReviewSerializer
+    def get(self, request):
+        queryset = Review.objects.all()
+        if (queryset.count()>0):
+            serializer = ReviewSerializer(queryset, many=True)
+            return Response({'data': serializer.data, 'message':'Review all data', 'success':True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserOrderAPIView(GenericAPIView):
+    serializer_class = OrderSerializer
+
+    def post(self, request):
+        user = request.data.get('user')
+        products = request.data.get('product')
+        quty = request.data.get('quantity')
+        quantity=int(quty)
+        order_status="0"
+
+        data = product.objects.all().filter(id=products).values()
+        for i in data:
+            prices=i['product_price']
+            t_price=int(prices)
+            print(t_price)
+            price=t_price*quantity
+            print(price)
+        
+
+
+        serializer = self.serializer_class(data= {'user':user, 'product':products,'quantity':quantity,'price':price,'order_status':order_status})
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data, 'message':'Order Placed successfully', 'success':True}, status = status.HTTP_201_CREATED)
+        return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class SingleOrderAPIView(GenericAPIView):
+    def get(self, request, id):
+        qset = brookuser.objects.all().filter(pk=id).values()
+        for i in qset:
+            u_id=i['id']
+
+        data=order.objects.all().filter(user=u_id).values()
+        print(data)
+        return Response({'data':data, 'message':'single order data', 'success':True}, status=status.HTTP_200_OK)
+
 
 
 

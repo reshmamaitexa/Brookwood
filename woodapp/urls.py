@@ -16,6 +16,8 @@ urlpatterns = [
     path('<int:id>/productformupdate/', views.productformupdate, name='productformupdate'),
     path('admin_add_category_page', views.admin_add_category_page,name='admin_add_category_page'),
     path('admin_add_category', views.admin_add_category,name='admin_add_category'),
+    path('admin_single_complaints/<int:id>', views.admin_single_complaints,name='admin_single_complaints'),
+    path('admin_add_replay/<int:id>', views.admin_add_replay,name='admin_add_replay'),
     # path('',views.admin_login,name='admin_login'),
     # path('login_admin',views.login_admin,name='login_admin'),
 

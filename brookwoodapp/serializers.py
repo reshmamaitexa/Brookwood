@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Log,brookuser,complaint,product, cart, category
+from .models import Log,brookuser,complaint,product, cart, category, Review, order
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,10 +53,19 @@ class categorySerializer(serializers.ModelSerializer):
         model = category
         fields = '__all__'
 
-# class OrderSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = order
-#         fields = '__all__'
-#     def Create(self,validated_data):
-#         return cart.objects.Create(**validated_data)
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+    def Create(self,validated_data):
+        return Review.objects.Create(**validated_data)
+
+        
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = order
+        fields = '__all__'
+    def Create(self,validated_data):
+        return cart.objects.Create(**validated_data)
 

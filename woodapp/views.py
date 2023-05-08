@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from brookwoodapp.models import Log, brookuser,product, category
+from brookwoodapp.models import Log, brookuser,product, category, complaint, Review
 from brookwoodapp import models
 import decimal
 # Create your views here.
@@ -11,13 +11,27 @@ def admin_dashboard(request):
     return render(request,'Admin_dashboard.html')
 
 def admin_view_complaint_report(request):
-        return render(request,'view_complaints_and_reply.html')
+    data=complaint.objects.all()
+    return render(request,'view_complaints_and_reply.html',{'data':data})
+
+def admin_single_complaints(request,id):
+    Data = complaint.objects.get(id=id)
+    return render(request,'admin_replay.html',{'Data':Data})
+
+def admin_add_replay(request,id):
+    if request.method=="POST":
+        add=complaint.objects.get(id=id)
+        add.replay=request.POST["replay"]
+        add.complaint_status="1"
+        add.save()
+        return redirect("admin_view_complaint_report")
 
 def admin_view_bill_report(request):
     return render(request,'bill_report.html')
 
 def admin_view_feedback(request):
-    return render(request,'view_feedback.html')    
+    data=Review.objects.all()
+    return render(request,'admin_view_feedback.html',{'data':data})    
 
 def admin_add_product(request):
     return render(request,'add_product.html')
