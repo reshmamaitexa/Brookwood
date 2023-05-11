@@ -153,6 +153,13 @@ class CartAPIView(GenericAPIView):
     serializer_class = CartSerializer
 
     def post(self, request):
+        total_price=""
+        image=""
+        category=""
+        p_status=""
+        prices=""
+
+        
         user = request.data.get('user')
         products=request.data.get('product')
         print(product)
@@ -163,13 +170,18 @@ class CartAPIView(GenericAPIView):
         
         data=product.objects.all().filter(id=products).values()
         for i in data:
+            print(i)
             prices=i['product_price']
+            p_status=i['product_status']
+            ctgry=i['category_id']
+            print(ctgry)
             price=int(prices)
             print(price)
             total_price=price*quantity
             print(total_price)
+            
 
-        serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':total_price,'cart_status':cart_status})
+        serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':total_price,'cart_status':cart_status,'category':ctgry})
         print(serializer)
         if serializer.is_valid():
             print("hi")

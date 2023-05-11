@@ -47,7 +47,7 @@ class category(models.Model):
 
 
 class product(models.Model):
-    category= models.CharField(max_length=50)
+    category= models.ForeignKey(category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=50)
     price = models.IntegerField()
     GST = models.IntegerField()
@@ -66,6 +66,8 @@ class cart(models.Model):
     quantity = models.CharField(max_length=500)
     total_price= models.CharField(max_length=500)
     cart_status = models.CharField(max_length=10)
+    # image = models.ImageField(upload_to='images')
+    category = models.CharField(max_length=10)
 
 
 class Review(models.Model):

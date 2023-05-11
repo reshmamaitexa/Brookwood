@@ -69,8 +69,10 @@ def admin_view_users(request):
 
 def admin_add_all_product(request):
     if request.method == 'POST':
-        category_name = request.POST.get('category_name')
+        categorys = request.POST.get('category_name')
+        print(categorys)
         product_name = request.POST.get('product_name')
+        print(product_name)
         prices = request.POST.get('price')
         price=int(prices)
         GSTs = request.POST.get('GST')
@@ -81,10 +83,18 @@ def admin_add_all_product(request):
         product_details = request.POST.get('product_details')
         image = request.FILES['image']
         stock = request.POST.get('stock')
+
+        cat = category.objects.get(category_name=categorys)
+        
+        # data = category.objects.all().filter(category_name=categorys).values()
+        # print(data)
+        # for i in data:
+        #     cat=i['id']
+        #     print(cat)
         
         product_status = '0'
 
-        ProductDetails = models.product(category=category_name,product_name=product_name, price=price,GST=GST,product_price=price_total,product_details=product_details,image=image,stock=stock,product_status=product_status)
+        ProductDetails = models.product(category=cat,product_name=product_name, price=price,GST=GST,product_price=price_total,product_details=product_details,image=image,stock=stock,product_status=product_status)
         ProductDetails.save()
             
         return redirect('admin_view_product')
