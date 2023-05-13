@@ -44,6 +44,8 @@ urlpatterns = [
 
     path('Singleorder/<int:id>', views.SingleOrderAPIView.as_view(), name='Singleorder'),
     
+    path('payment', views.UserOrderPaymentAPIView.as_view(), name='payment'),
+
 
     
 ]

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from .models import Log,brookuser,complaint, product, cart, category, Review, order
-from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer, ComplaintSerializer, ReviewSerializer, OrderSerializer
+from .models import Log,brookuser,complaint, product, cart, category, Review, order, payment
+from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer, ComplaintSerializer, ReviewSerializer, OrderSerializer, PaymentSerializer
 
 # Create your views here.
 
@@ -167,27 +167,32 @@ class CartAPIView(GenericAPIView):
         quantity=int(quty)
         cart_status="0"
         
-        
-        data=product.objects.all().filter(id=products).values()
-        for i in data:
-            print(i)
-            prices=i['product_price']
-            p_status=i['product_status']
-            ctgry=i['category_id']
-            print(ctgry)
-            price=int(prices)
-            print(price)
-            total_price=price*quantity
-            print(total_price)
-            
+        carts = cart.objects.filter(user=user, product=products)
+        if carts.exists():
+            return Response({'message':'Item is already in cart','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':total_price,'cart_status':cart_status,'category':ctgry})
-        print(serializer)
-        if serializer.is_valid():
-            print("hi")
-            serializer.save()
-            return Response({'data':serializer.data,'message':'cart added successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            data=product.objects.all().filter(id=products).values()
+            for i in data:
+                print(i)
+                prices=i['product_price']
+                p_status=i['product_status']
+                ctgry=i['category_id']
+                print(ctgry)
+                price=int(prices)
+                print(price)
+                total_price=price*quantity
+                print(total_price)
+                tp=str(total_price)
+                
+
+            serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':tp,'cart_status':cart_status,'category':ctgry})
+            print(serializer)
+            if serializer.is_valid():
+                print("hi")
+                serializer.save()
+                return Response({'data':serializer.data,'message':'cart added successfully', 'success':True}, status = status.HTTP_201_CREATED)
+            return Response({'data':serializer.errors,'message':'Invalid','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -293,6 +298,36 @@ class SingleOrderAPIView(GenericAPIView):
         data=order.objects.all().filter(user=u_id).values()
         print(data)
         return Response({'data':data, 'message':'single order data', 'success':True}, status=status.HTTP_200_OK)
+
+
+
+
+
+class UserOrderPaymentAPIView(GenericAPIView):
+    serializer_class = PaymentSerializer
+
+    def post(self, request):
+        prices=""
+        user = request.data.get('user')
+        ords = request.data.get('orders')
+        print(ords)
+        date = request.data.get('date')
+        paymentstatus="0"
+
+        data = order.objects.all().filter(id=ords).values()
+        print(data)
+        for i in data:
+            prices=i['price']
+            
+        
+
+
+        serializer = self.serializer_class(data= {'user':user, 'orders':ords,'date':date,'amount':prices,'paymentstatus':paymentstatus})
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data, 'message':'Payment successfull', 'success':True}, status = status.HTTP_201_CREATED)
+        return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -40,6 +40,7 @@ class complaint(models.Model):
 
 class category(models.Model):
     category_name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='images')
     category_status = models.CharField(max_length=10)
 
     def __str__(self):
@@ -103,13 +104,12 @@ class order(models.Model):
 
 class payment(models.Model):
     user=models.ForeignKey(brookuser,on_delete=models.CASCADE)
-    order=models.ForeignKey(order,on_delete=models.CASCADE)
+    orders=models.ForeignKey(order,on_delete=models.CASCADE)
     amount = models.CharField(max_length=10)
     date = models.DateField()
     paymentstatus = models.CharField(max_length=10)
 
-    def __str__(self):
-        return self.bank
+
 
 
 

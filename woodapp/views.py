@@ -146,9 +146,10 @@ def admin_add_category_page(request):
 def admin_add_category(request):
     if request.method == 'POST':
         category_name = request.POST.get('category_name')
+        image = request.FILES['image']
         category_status = '0'
 
-        CategoryDetails = models.category(category_name=category_name,category_status=category_status)
+        CategoryDetails = models.category(category_name=category_name,image=image,category_status=category_status)
         CategoryDetails.save()
             
         return render(request,'view_product.html')
