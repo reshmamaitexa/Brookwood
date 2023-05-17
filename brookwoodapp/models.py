@@ -25,16 +25,7 @@ class brookuser(models.Model):
     def __str__(self):
         return self.fullname
 
-class complaint(models.Model):
 
-    user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
-    product = models.CharField(max_length=500)
-    complaint = models.CharField(max_length=500)
-    date = models.DateField()
-    replay= models.CharField(max_length=500,default='No Replay')
-    complaint_status = models.CharField(max_length=10)
-    def __str__(self):
-        return self.complaint
 
 
 
@@ -55,24 +46,38 @@ class product(models.Model):
     product_price = models.IntegerField()
     product_details = models.CharField(max_length=300)
     image = models.ImageField(upload_to='images')
-    stock = models.CharField(max_length=500)
+    stock = models.CharField(max_length=500)    
     product_status = models.CharField(max_length=10)
 
     def __str__(self):
         return self.product_name
 
+
+class complaint(models.Model):
+
+    user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    complaint = models.CharField(max_length=500)
+    date = models.DateField()
+    replay= models.CharField(max_length=500,default='No Replay')
+    complaint_status = models.CharField(max_length=10)
+    def __str__(self):
+        return self.complaint
+
 class cart(models.Model):
     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
+    p_name = models.CharField(max_length=500)
     quantity = models.CharField(max_length=500)
     total_price= models.CharField(max_length=500)
     cart_status = models.CharField(max_length=10)
-    # image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images')
     category = models.CharField(max_length=10)
 
 
 class Review(models.Model):
     user = models.ForeignKey(brookuser, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
     feedback = models.CharField(max_length=500)
     rating = models.CharField(max_length=50)
     date = models.DateField()
@@ -85,9 +90,12 @@ class Review(models.Model):
 class order(models.Model):
     user=models.ForeignKey(brookuser,on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
-    quantity = models.CharField(max_length=500)
-    price= models.IntegerField()
-    order_status = models.CharField(max_length=10)
+    product_name = models.CharField(max_length=500, blank=True, null=True)
+    quantity = models.CharField(max_length=500,blank=True, null=True)
+    total_price= models.IntegerField()
+    image = models.ImageField(upload_to='images', blank=True, null=True)
+    category = models.CharField(max_length=500,blank=True, null=True)
+    order_status = models.CharField(max_length=10,blank=True, null=True)
 
    
 

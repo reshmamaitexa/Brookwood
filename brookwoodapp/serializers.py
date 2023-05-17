@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.conf import settings
 from .models import Log,brookuser,complaint,product, cart, category, Review, order, payment
 
 class LoginUserSerializer(serializers.ModelSerializer):
@@ -44,8 +45,30 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = cart
         fields = '__all__'
-    def Create(self,validated_data):
-        return cart.objects.Create(**validated_data)
+    def create(self,validated_data):
+        return cart.objects.create(**validated_data)
+
+    # def get_image_url(self, obj):
+    #     request = self.context.get('request')
+    #     if obj.image:
+    #         return request.build_absolute_uri(obj.image.url)
+    #     return None
+
+
+# class CartSerializer(serializers.ModelSerializer):
+#     image_url = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = cart
+#         fields = '__all__'
+
+#     def Create(self,validated_data):
+#         return cart.objects.Create(**validated_data)
+
+#     def get_image_url(self, obj):
+#         if obj.image:
+#             return self.context['request'].build_absolute_uri(obj.image.url)
+#         return None
 
 
 class categorySerializer(serializers.ModelSerializer):
@@ -67,7 +90,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = order
         fields = '__all__'
     def Create(self,validated_data):
-        return cart.objects.Create(**validated_data)
+        return order.objects.Create(**validated_data)
 
 
 

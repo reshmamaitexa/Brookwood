@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
@@ -122,10 +123,10 @@ class ComplaintSingleAPIView(GenericAPIView):
         for i in queryset:
             user = i['id']
             print('///////////',user)
-        instance = complaint.objects.get(user=user)
+        instance = complaint.objects.all().filter(user=user).values()
         print("======",instance)
-        serializer = ComplaintSerializer(instance)
-        return Response({'data': serializer.data, 'message':'complaint  data', 'success':True}, status=status.HTTP_200_OK)
+        # serializer = ComplaintSerializer(instance)
+        return Response({'data': instance, 'message':'complaint  data', 'success':True}, status=status.HTTP_200_OK)
 
 
 
@@ -178,15 +179,20 @@ class CartAPIView(GenericAPIView):
                 prices=i['product_price']
                 p_status=i['product_status']
                 ctgry=i['category_id']
+                p_name=i['product_name']
                 print(ctgry)
                 price=int(prices)
                 print(price)
                 total_price=price*quantity
                 print(total_price)
                 tp=str(total_price)
+
+            producto = product.objects.get(id=products)
+            product_image = producto.image
+            print(image)
                 
 
-            serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':tp,'cart_status':cart_status,'category':ctgry})
+            serializer = self.serializer_class(data= {'user':user,'product':products,'quantity':quantity,'total_price':tp,'cart_status':cart_status,'category':ctgry,'image':product_image,'p_name':p_name})
             print(serializer)
             if serializer.is_valid():
                 print("hi")
@@ -197,14 +203,97 @@ class CartAPIView(GenericAPIView):
 
 
 class SingleCartAPIView(GenericAPIView):
+    
     def get(self, request, id):
+        # u_id=""
+        # qset = brookuser.objects.all().filter(pk=id).values()
+        # for i in qset:
+        #     u_id=i['id']
+
+        # data=cart.objects.all().filter(user=u_id).values()
+        # u_id = brookuser.objects.get(pk=id).id
+        # data = cart.objects.filter(user=u_id)
+        # print(data)
+        # serializer =CartSerializer(data)
+        u_id=""
         qset = brookuser.objects.all().filter(pk=id).values()
         for i in qset:
             u_id=i['id']
 
-        data=cart.objects.all().filter(user=u_id).values()
-        print(data)
-        return Response({'data':data, 'message':'single product data', 'success':True}, status=status.HTTP_200_OK)
+        data = cart.objects.filter(user=u_id).values()
+        serialized_data = list(data)
+        print(serialized_data)
+        for obj in serialized_data:
+            obj['image'] = settings.MEDIA_URL + str(obj['image'])
+        return Response({'data':serialized_data, 'message':'single product data', 'success':True}, status=status.HTTP_200_OK)
+
+
+
+
+class CartIncrementQuantityAPIView(GenericAPIView):
+    
+    def put(self, request, id):
+        cart_item = cart.objects.get(pk=id)
+
+        qnty=cart_item.quantity 
+        qty=int(qnty)
+
+        cart_item.quantity=qty + 1
+
+        q=cart_item.quantity
+        qn=int(q)
+
+        pr=cart_item.product.product_price
+        price=int(pr)
+
+        tp=price*qn
+        cart_item.total_price=tp
+        
+        cart_item.save()
+        serialized_data = CartSerializer(cart_item, context={'request': request}).data
+        serialized_data['image'] = str(serialized_data['image']).split('http://localhost:8000')[1]
+        # for obj in serialized_data:
+        #     obj['image'] = settings.MEDIA_URL + str(obj['image'])
+        return Response({'data': serialized_data, 'message': 'Cart item quantity updated', 'success': True}, status=status.HTTP_200_OK)
+
+
+class CartDecrementQuantityAPIView(GenericAPIView):
+    
+    def put(self, request, id):
+        cart_item = cart.objects.get(pk=id)
+        qny=cart_item.quantity
+        qant=int(qny)
+        if qant > 1:
+            qnty=cart_item.quantity 
+            qty=int(qnty)
+
+            cart_item.quantity=qty - 1
+
+            q=cart_item.quantity
+            qn=int(q)
+
+            pr=cart_item.product.product_price
+            price=int(pr)
+
+            tp=price*qn
+            cart_item.total_price=tp
+
+            cart_item.save()
+            serialized_data = CartSerializer(cart_item, context={'request': request}).data
+            serialized_data['image'] = str(serialized_data['image']).split('http://localhost:8000')[1]
+            # for obj in serialized_data:
+            #     obj['image'] = settings.MEDIA_URL + str(obj['image'])
+            return Response({'data': serialized_data, 'message': 'Cart item quantity updated', 'success': True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Quantity can not be less than 1', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class Delete_CartAPIView(GenericAPIView):
+    def delete(self, request, id):
+        delmember = cart.objects.get(pk=id)
+        delmember.delete()
+        return Response({'message':'Cart successfully',  'success':True}, status=status.HTTP_200_OK)
 
 
 
@@ -219,6 +308,23 @@ class Get_CategoryAPIView(GenericAPIView):
             return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CategoryProductAPIView(GenericAPIView):
+    def get(self, request, id):
+        # u_id=""
+        u_id = None
+        qset = category.objects.all().filter(pk=id).values()
+        for i in qset:
+            u_id=i['id']
+            print(u_id)
+
+        data = product.objects.filter(category=u_id).values()
+        serialized_data = list(data)
+        print(serialized_data)
+        for obj in serialized_data:
+            obj['image'] = settings.MEDIA_URL + str(obj['image'])
+        return Response({'data':serialized_data, 'message':'Product category data', 'success':True}, status=status.HTTP_200_OK)
+
+
 
 class UserReviewAPIView(GenericAPIView):
     serializer_class = ReviewSerializer
@@ -226,12 +332,13 @@ class UserReviewAPIView(GenericAPIView):
     def post(self, request):
         user = request.data.get('user')
         feedback = request.data.get('feedback')
+        product = request.data.get('product')
         rating = request.data.get('rating')
         date = request.data.get('date')
         review_status="0"
 
 
-        serializer = self.serializer_class(data= {'user':user, 'feedback':feedback,'rating':rating,'date':date,'review_status':review_status})
+        serializer = self.serializer_class(data= {'user':user,'product':product,'feedback':feedback,'rating':rating,'date':date,'review_status':review_status})
         print(serializer)
         if serializer.is_valid():
             serializer.save()
@@ -244,9 +351,9 @@ class SingleReviewAPIView(GenericAPIView):
         queryset = brookuser.objects.all().filter(pk=id).values()
         for i in queryset:
             u_id=i['id']
-        data=Review.objects.get(user=u_id)
-        serializer =ReviewSerializer(data)
-        return Response({'data': serializer.data, 'message':'single Review data', 'success':True}, status=status.HTTP_200_OK)
+        instance = Review.objects.all().filter(user=u_id).values()
+        # serializer =ReviewSerializer(data)
+        return Response({'data': instance, 'message':'single Review data', 'success':True}, status=status.HTTP_200_OK)
 
 
 class Get_ReviewAPIView(GenericAPIView):
@@ -265,27 +372,29 @@ class UserOrderAPIView(GenericAPIView):
 
     def post(self, request):
         user = request.data.get('user')
-        products = request.data.get('product')
-        quty = request.data.get('quantity')
-        quantity=int(quty)
-        order_status="0"
-
-        data = product.objects.all().filter(id=products).values()
-        for i in data:
-            prices=i['product_price']
-            t_price=int(prices)
-            print(t_price)
-            price=t_price*quantity
-            print(price)
+        carts = cart.objects.filter(user=user, cart_status=0)
+        order_data = []
         
+        for i in carts:
+            order_data.append({
+                'user': user,
+                'product': i.product.id,
+                'product_name': i.p_name,
+                'quantity': i.quantity,
+                'total_price': i.total_price,
+                'image': i.image,
+                'category': i.category,
+                'order_status': "0",
+            })
+            print(order_data)
+            i.cart_status = "1"
+            i.save()
 
-
-        serializer = self.serializer_class(data= {'user':user, 'product':products,'quantity':quantity,'price':price,'order_status':order_status})
-        print(serializer)
+        serializer = self.serializer_class(data=order_data, many=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({'data':serializer.data, 'message':'Order Placed successfully', 'success':True}, status = status.HTTP_201_CREATED)
-        return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'data': serializer.data, 'message': 'Order placed successfully', 'success': True}, status=status.HTTP_201_CREATED)
+        return Response({'data': serializer.errors, 'message': 'Failed', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -295,8 +404,14 @@ class SingleOrderAPIView(GenericAPIView):
         for i in qset:
             u_id=i['id']
 
-        data=order.objects.all().filter(user=u_id).values()
-        print(data)
+        # data=order.objects.all().filter(user=u_id).values()
+        # print(data)
+
+        data = order.objects.filter(user=u_id).values()
+        serialized_data = list(data)
+        print(serialized_data)
+        for obj in serialized_data:
+            obj['image'] = settings.MEDIA_URL + str(obj['image'])
         return Response({'data':data, 'message':'single order data', 'success':True}, status=status.HTTP_200_OK)
 
 
@@ -328,6 +443,9 @@ class UserOrderPaymentAPIView(GenericAPIView):
             serializer.save()
             return Response({'data':serializer.data, 'message':'Payment successfull', 'success':True}, status = status.HTTP_201_CREATED)
         return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 

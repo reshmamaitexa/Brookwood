@@ -46,6 +46,14 @@ urlpatterns = [
     
     path('payment', views.UserOrderPaymentAPIView.as_view(), name='payment'),
 
+    path('productcategory/<int:id>', views.CategoryProductAPIView.as_view(), name='productcategory'),
+
+    path('deletecart/<int:id>', views.Delete_CartAPIView.as_view(), name='deletecart'),
+
+    path('cart_increment/<int:id>', views.CartIncrementQuantityAPIView.as_view(), name='cart_increment'),
+
+    path('cart_decrement/<int:id>', views.CartDecrementQuantityAPIView.as_view(), name='cart_decrement'),
+
 
     
 ]
