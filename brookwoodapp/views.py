@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from django.db.models import Sum
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from .models import Log,brookuser,complaint, product, cart, category, Review, order, payment
-from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer, ComplaintSerializer, ReviewSerializer, OrderSerializer, PaymentSerializer
+from .models import Log,brookuser,complaint, product, cart, category, Review, order, payment, order_price
+from brookwoodapp.serializers import LoginUserSerializer,ComplaintSerializer, UserRegisterSerializer, ProductSerializer, CartSerializer, categorySerializer, ComplaintSerializer, ReviewSerializer, OrderSerializer, PaymentSerializer, OrderPriceSerializer
 
 # Create your views here.
 
@@ -367,26 +368,44 @@ class Get_ReviewAPIView(GenericAPIView):
             return Response({'data':'No data available', 'success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class UserOrderAPIView(GenericAPIView):
     serializer_class = OrderSerializer
 
     def post(self, request):
         user = request.data.get('user')
         carts = cart.objects.filter(user=user, cart_status=0)
+
+        if not carts.exists():
+            return Response({'message': 'No items in cart to place order', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
+
+    
+        tot = carts.aggregate(total=Sum('total_price'))['total']
+        total=str(tot)
+
+        print("=========total   ",total)
+        # for i in total:
+        #     li.append(total)
+        #     print(li)
+
+
         order_data = []
         
         for i in carts:
+           
+
             order_data.append({
                 'user': user,
                 'product': i.product.id,
                 'product_name': i.p_name,
                 'quantity': i.quantity,
-                'total_price': i.total_price,
+                'total_price':i.total_price,
                 'image': i.image,
                 'category': i.category,
                 'order_status': "0",
+                'all_price': total
             })
-            print(order_data)
+            print("order data==========",order_data)
             i.cart_status = "1"
             i.save()
 
@@ -395,6 +414,30 @@ class UserOrderAPIView(GenericAPIView):
             serializer.save()
             return Response({'data': serializer.data, 'message': 'Order placed successfully', 'success': True}, status=status.HTTP_201_CREATED)
         return Response({'data': serializer.errors, 'message': 'Failed', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AllPriceAPIView(GenericAPIView):
+    # serializer_class = OrderPriceSerializer
+
+    def get(self, request,id):
+        # user = request.data.get('user')
+        carts = cart.objects.filter(user=id, cart_status=1)
+        print(carts)
+
+        tot = carts.aggregate(total=Sum('total_price'))['total']
+        print(tot)
+        
+        price_status="0"
+
+        # serializer = self.serializer_class(data= {'user':user, 'total_price':tot,'price_status':price_status})
+        # print(serializer)
+        # if serializer.is_valid():
+        #     serializer.save()
+        return Response({'data':{ 'total_price':tot} , 'message': 'Get Order Price successfully', 'success': True}, status=status.HTTP_201_CREATED)
+        # return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 
@@ -422,22 +465,17 @@ class UserOrderPaymentAPIView(GenericAPIView):
     serializer_class = PaymentSerializer
 
     def post(self, request):
-        prices=""
         user = request.data.get('user')
         ords = request.data.get('orders')
-        print(ords)
+        amount = request.data.get('amount')
         date = request.data.get('date')
         paymentstatus="0"
 
-        data = order.objects.all().filter(id=ords).values()
-        print(data)
-        for i in data:
-            prices=i['price']
             
         
 
 
-        serializer = self.serializer_class(data= {'user':user, 'orders':ords,'date':date,'amount':prices,'paymentstatus':paymentstatus})
+        serializer = self.serializer_class(data= {'user':user, 'orders':ords,'date':date,'amount':amount,'paymentstatus':paymentstatus})
         print(serializer)
         if serializer.is_valid():
             serializer.save()

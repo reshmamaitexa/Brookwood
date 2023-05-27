@@ -54,6 +54,8 @@ urlpatterns = [
 
     path('cart_decrement/<int:id>', views.CartDecrementQuantityAPIView.as_view(), name='cart_decrement'),
 
+    path('order_price/<int:id>', views.AllPriceAPIView.as_view(), name='order_price'),
+
 
     
 ]

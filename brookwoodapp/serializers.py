@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.conf import settings
-from .models import Log,brookuser,complaint,product, cart, category, Review, order, payment
+from .models import Log,brookuser,complaint,product, cart, category, Review, order, payment, order_price
 
 class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -92,7 +92,12 @@ class OrderSerializer(serializers.ModelSerializer):
     def Create(self,validated_data):
         return order.objects.Create(**validated_data)
 
-
+class OrderPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = order_price
+        fields = '__all__'
+    def Create(self,validated_data):
+        return order.objects.Create(**validated_data)
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:

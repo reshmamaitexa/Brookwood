@@ -98,7 +98,12 @@ class order(models.Model):
     order_status = models.CharField(max_length=10,blank=True, null=True)
 
    
+class order_price(models.Model):
+    user=models.ForeignKey(brookuser,on_delete=models.CASCADE)
+    total_price= models.IntegerField()
+    price_status = models.CharField(max_length=10)
 
+    
 # class bill(models.Model):
 #     total_amount = models.CharField(max_length=50)
 #     date=models.CharField(max_length=20)
