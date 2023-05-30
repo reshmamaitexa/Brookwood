@@ -425,6 +425,7 @@ class AllPriceAPIView(GenericAPIView):
         print(carts)
 
         tot = carts.aggregate(total=Sum('total_price'))['total']
+        Total_prices=str(tot)
         print(tot)
         
         price_status="0"
@@ -433,7 +434,7 @@ class AllPriceAPIView(GenericAPIView):
         # print(serializer)
         # if serializer.is_valid():
         #     serializer.save()
-        return Response({'data':{ 'total_price':tot} , 'message': 'Get Order Price successfully', 'success': True}, status=status.HTTP_201_CREATED)
+        return Response({'data':{ 'total_price':Total_prices} , 'message': 'Get Order Price successfully', 'success': True}, status=status.HTTP_201_CREATED)
         # return Response({'data':serializer.errors, 'message':'Failed','success':False}, status=status.HTTP_400_BAD_REQUEST)
 
 
