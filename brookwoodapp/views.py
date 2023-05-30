@@ -471,9 +471,6 @@ class UserOrderPaymentAPIView(GenericAPIView):
         date = request.data.get('date')
         paymentstatus="0"
 
-            
-        
-
 
         serializer = self.serializer_class(data= {'user':user, 'orders':ords,'date':date,'amount':amount,'paymentstatus':paymentstatus})
         print(serializer)
