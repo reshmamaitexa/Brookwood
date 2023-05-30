@@ -466,13 +466,12 @@ class UserOrderPaymentAPIView(GenericAPIView):
 
     def post(self, request):
         user = request.data.get('user')
-        ords = request.data.get('orders')
         amount = request.data.get('amount')
         date = request.data.get('date')
-        paymentstatus="0"
+        paymentstatus="1"
 
 
-        serializer = self.serializer_class(data= {'user':user, 'orders':ords,'date':date,'amount':amount,'paymentstatus':paymentstatus})
+        serializer = self.serializer_class(data= {'user':user, 'date':date,'amount':amount,'paymentstatus':paymentstatus})
         print(serializer)
         if serializer.is_valid():
             serializer.save()

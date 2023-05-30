@@ -117,10 +117,9 @@ class order_price(models.Model):
 
 class payment(models.Model):
     user=models.ForeignKey(brookuser,on_delete=models.CASCADE)
-    orders=models.ForeignKey(order,on_delete=models.CASCADE)
     amount = models.CharField(max_length=10)
     date = models.DateField()
-    paymentstatus = models.CharField(max_length=10)
+    paymentstatus = models.CharField(max_length=10,default='0')
 
 
 
